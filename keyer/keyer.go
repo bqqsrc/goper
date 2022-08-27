@@ -85,7 +85,7 @@ func getResponseByConfig(url string, urlRouterKeys, defaultRouterKeys RouterKey,
 }
 
 func getStringFromPostData(url, key, funcName string, postData map[string]interface{}) (string, error) {
-	if result, err := maper.GetStringFromMaps(key, postData); err != nil {
+	if result, err := imaper.GetStringFromMaps(key, postData); err != nil {
 		return "", Goper.GeneralError(400, funcName, errorMsg, getPostDataErrorTip, url, key, err, checkPostDataTip)
 	} else {
 		return result, nil
@@ -93,7 +93,7 @@ func getStringFromPostData(url, key, funcName string, postData map[string]interf
 }
 
 func getMapFromPostData(url, key, funcName string, postData map[string]interface{}) (map[string]interface{}, error) {
-	if result, err := maper.GetMapFromMaps(key, postData); err != nil {
+	if result, err := imaper.GetMapFromMaps(key, postData); err != nil {
 		return nil, Goper.GeneralError(400, funcName, errorMsg, getPostDataErrorTip, url, key, err, checkPostDataTip)
 	} else {
 		return result, nil
