@@ -1,0 +1,17 @@
+*.DS_Store
+goper.ini
+tmp/log
+*goper.log
+goper/src/util/gson/testdata/callback.option.gson
+goper/src/util/gson/testdata/decode.option.gson
+server/pid
+server/tools/conf
+server/tools/build
+res
+__debug_bin*.exe
+.vscode
+*.sum
+tmp
+main.exe
+.VSCodeCounter
+src/http_new/其他
