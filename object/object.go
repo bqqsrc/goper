@@ -61,9 +61,9 @@ type Componenter interface {
 	// OnReInit：在重新加载配置文件时触发
 	// OnReStart：在重新加载可执行文件时触发
 	// OnPanic：在发生panic时触发
-	OnReInit(*Cycle) error
-	OnReStart(*Cycle) error
-	OnPanic(*Cycle) error
+	// OnReInit(*Cycle) error
+	// OnReStart(*Cycle) error
+	// OnPanic(*Cycle) error
 	GetKind() Kind
 }
 
