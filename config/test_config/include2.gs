@@ -1,2 +1,0 @@
-TestValueVal1: 965821
-TestValueVal2: TestValueVal2_2
