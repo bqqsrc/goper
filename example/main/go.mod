@@ -21,5 +21,3 @@ require (
 	github.com/bqqsrc/goper/mode v0.1.0 // indirect
 	github.com/bqqsrc/gson v0.1.6 // indirect
 )
-
-replace github.com/bqqsrc/goper v0.1.2 => ../../
