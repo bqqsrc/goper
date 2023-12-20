@@ -15,7 +15,7 @@ import (
 )
 
 // 启动
-func Launch() error {
+func Launch(components []object.Componenter) error {
 	var lErr errors.ErrorGroup
 	var pCycle *object.Cycle
 	defer func() {
@@ -24,6 +24,9 @@ func Launch() error {
 		}
 	}()
 	pCycle, lErr = analyArgs()
+
+	compts := initCompts(components)
+	pCycle.Compts = compts
 
 	if cnt := len(compts); cnt > 0 {
 		if compt, ok := compts[0].(*core.Core); ok {
@@ -71,7 +74,6 @@ func analyArgs() (*object.Cycle, errors.ErrorGroup) {
 
 	pc := &object.Cycle{
 		Prefix: prefix,
-		Compts: compts,
 	}
 	if lErr == nil {
 		pc.ConfFile = confFile
