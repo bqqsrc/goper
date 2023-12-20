@@ -16,13 +16,18 @@ import (
 	"github.com/bqqsrc/goper/object"
 )
 
-var compts = []object.Componenter{
-	// compts的第一个一定是core.Core，不可改动
-	&core.Core{},
-	// config.Config模块用于从配置文件读取各组件的配置参数值，应当紧跟在core.Core之后
-	&config.Config{},
-	&log.Log{},
-	&http.Http{},
-	&hcore.HCore{},
-	// &hdatabase.HDatabase{},
+func initCompts(compts []object.Componenter) []object.Componenter {
+	if compts != nil && len(compts) > 0 {
+		return compts
+	}
+	return []object.Componenter{
+		// compts的第一个一定是core.Core，不可改动
+		&core.Core{},
+		// config.Config模块用于从配置文件读取各组件的配置参数值，应当紧跟在core.Core之后
+		&config.Config{},
+		&log.Log{},
+		&http.Http{},
+		&hcore.HCore{},
+		// &hdatabase.HDatabase{},
+	}
 }
