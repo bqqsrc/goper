@@ -187,9 +187,6 @@ func (t *'${Name}') Update(pc *object.Cycle) (time.Duration, error) {
 func (t *'${Name}') OnExit(pc *object.Cycle) error {
 	log.Debugln("'${Name}' OnExit")
 	return nil
-}
-func (t *'${Name}') GetKind() object.Kind {
-	return object.ComptBase
 }' > "${srcName}.go"
 
 go get
