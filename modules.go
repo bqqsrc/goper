@@ -14,7 +14,6 @@ import (
 
 	"github.com/bqqsrc/goper/log"
 	"github.com/bqqsrc/goper/object"
-	// "github.com/bqqsrc/goper/template"
 )
 
 var compts = []object.Componenter{
@@ -23,7 +22,6 @@ var compts = []object.Componenter{
 	// config.Config模块用于从配置文件读取各组件的配置参数值，应当紧跟在core.Core之后
 	&config.Config{},
 	&log.Log{},
-	// &template.Template{},
 	&http.Http{},
 	&hcore.HCore{},
 	// &hdatabase.HDatabase{},
