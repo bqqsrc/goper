@@ -15,7 +15,7 @@ import (
 )
 
 // 启动
-func Launch() error {
+func Launch(components []object.Componenter) error {
 	var lErr errors.ErrorGroup
 	var pCycle *object.Cycle
 	defer func() {
@@ -24,6 +24,10 @@ func Launch() error {
 		}
 	}()
 	pCycle, lErr = analyArgs()
+
+	if components != nil && len(components) > 0 {
+		compts = components
+	}
 
 	if cnt := len(compts); cnt > 0 {
 		if compt, ok := compts[0].(*core.Core); ok {
