@@ -183,14 +183,14 @@ func mergeConfAndHandler(compt http.HttpComponenter, servers []server,
 				servers = make([]server, 0, 4)
 			}
 			l := len(servers)
-			if routerIndex == 0 {
+			if routerIndex == 0 && restIndex == 0 {
 				if serverIndex != l {
-					return servers, errGroup.AddErrorf("routerIndex is %d, serverIndex is %d, so servers len should be %d, but got %d", routerIndex, serverIndex, serverIndex, l)
+					return servers, errGroup.AddErrorf("restIndex is %d, routerIndex is %d, serverIndex is %d, so servers len should be %d, but got %d", restIndex, routerIndex, serverIndex, serverIndex, l)
 				}
 				servers = append(servers, server{listen: conf.listen})
 			} else {
 				if serverIndex != l-1 {
-					return servers, errGroup.AddErrorf("routerIndex is %d, serverIndex is %d, so servers len should be %d, but got %d", routerIndex, serverIndex, serverIndex+1, l)
+					return servers, errGroup.AddErrorf("restIndex is %d, routerIndex is %d, serverIndex is %d, so servers len should be %d, but got %d", restIndex, routerIndex, serverIndex, serverIndex+1, l)
 				}
 			}
 
