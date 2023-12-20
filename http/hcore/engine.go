@@ -63,7 +63,9 @@ func (e *engine) handleHTTPRequest(c *http.Context) {
 	path := c.Request.URL.Path
 	if e.trees != nil {
 		if handler, params := e.getHandler(domain, path, meth); handler != nil {
-			c.ParamsData = *params
+			if params != nil {
+				c.ParamsData = *params
+			}
 			phase := handler.Handler(c)
 			switch phase {
 			case http.HttpError:
