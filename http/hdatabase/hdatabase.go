@@ -38,6 +38,7 @@ func (d *database) Handler(c *http.Context) http.HttpPhase {
 		c.Errors = c.Errors.AddErrors(err)
 		return http.HttpError
 	}
+	d.init = true
 	return http.HttpNext
 }
 
