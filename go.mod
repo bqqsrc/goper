@@ -10,7 +10,7 @@ require (
 	github.com/bqqsrc/goper/config v0.1.1
 	github.com/bqqsrc/goper/core v0.1.1
 	github.com/bqqsrc/goper/http v0.1.0
-	github.com/bqqsrc/goper/http/hcore v0.1.0
+	github.com/bqqsrc/goper/http/hcore v0.1.1
 	github.com/bqqsrc/goper/log v0.1.0
 	github.com/bqqsrc/goper/mode v0.1.0
 	github.com/bqqsrc/goper/object v0.1.2
