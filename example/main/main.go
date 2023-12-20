@@ -10,6 +10,7 @@ import (
 	"github.com/bqqsrc/goper/core"
 	"github.com/bqqsrc/goper/http"
 	"github.com/bqqsrc/goper/http/hcore"
+	"github.com/bqqsrc/goper/http/hdatabase"
 	"github.com/bqqsrc/goper/log"
 	"github.com/bqqsrc/goper/object"
 )
@@ -22,7 +23,7 @@ var compts = []object.Componenter{
 	&log.Log{},
 	&http.Http{},
 	&hcore.HCore{},
-	// &hdatabase.HDatabase{},
+	&hdatabase.HDatabase{},
 }
 
 func main() {
