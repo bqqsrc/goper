@@ -3,13 +3,19 @@
 package hcore
 
 import (
+	"errors"
 	"fmt"
+	"io/ioutil"
 	httpp "net/http"
+	"net/url"
 	"strings"
 	"sync"
 
 	"github.com/bqqsrc/goper/http"
+	"github.com/bqqsrc/goper/log"
 )
+
+const defaultMultipartMemory = 32 << 20
 
 type engine struct {
 	listenInfo listen
@@ -50,9 +56,14 @@ func (e *engine) addRouter(domain, path, method string, handler http.HttpHandler
 	return e.trees.addRouter(domain, path, method, handler)
 }
 
-func (e *engine) getHandler(domain, path, method string) (http.HttpHandler, *http.Params) {
+func (e *engine) getHandler(domain, path, method string) (*httpPhaseHandlers, *http.Params) {
 	if value, err := e.trees.getHandler(domain, path, method); err == nil && value.handler != nil {
-		return value.handler, value.params
+		if handler, ok := value.handler.(*httpPhaseHandlers); ok {
+			return handler, value.params
+		} else {
+			return nil, nil
+		}
+		// return value.handler, value.params
 	}
 	return nil, nil
 }
@@ -66,24 +77,42 @@ func (e *engine) handleHTTPRequest(c *http.Context) {
 			if params != nil {
 				c.ParamsData = *params
 			}
+			c.QueryData = c.Request.URL.Query()
+			c.FormData = make(url.Values)
+			if err := c.Request.ParseMultipartForm(defaultMultipartMemory); err != nil {
+				if !errors.Is(err, httpp.ErrNotMultipart) {
+					log.Errorf("error on parse multipart form array: %v", err)
+					return
+				}
+			}
+			c.FormData = c.Request.PostForm
+			c.Body, _ = ioutil.ReadAll(c.Request.Body)
+
 			phase := handler.Handler(c)
+			if c.NotResponse {
+				return
+			}
 			switch phase {
 			case http.HttpError:
 				//TODO handler call err
+				c.Writer.Write([]byte(c.Errors.Error()))
 			case http.HttpFinish:
 				//TODO handler call finish
+				c.Writer.Write(c.Response.Bytes())
 			}
 		} else {
 			//TODO: handler nil, not found
+			c.Writer.Write([]byte("404 not found"))
 		}
 	} else {
 		//TODO:trees empty
-
+		c.Writer.Write([]byte("404 not found"))
 	}
 }
 
 func (e *engine) ServeHTTP(w httpp.ResponseWriter, req *httpp.Request) {
 	c := e.pool.Get().(*http.Context)
+	c.Reset()
 	c.Writer = w
 	c.Request = req
 

@@ -8,7 +8,7 @@ import (
 
 type rest struct {
 	methods  []string
-	handlers httpPhaseHandlers
+	handlers *httpPhaseHandlers
 }
 type router struct {
 	domain string
@@ -34,5 +34,8 @@ func (s *server) addHander(routerIndex, restIndex int, phase http.HttpPhase, han
 		appRests := make([]rest, restIndex+1-len(s.routers[routerIndex].rests))
 		s.routers[routerIndex].rests = append(s.routers[routerIndex].rests, appRests...)
 	}
-	s.routers[routerIndex].rests[restIndex].handlers = s.routers[routerIndex].rests[restIndex].handlers.addHandlers(phase, handlers...)
+	if s.routers[routerIndex].rests[restIndex].handlers == nil {
+		s.routers[routerIndex].rests[restIndex].handlers = &httpPhaseHandlers{}
+	}
+	s.routers[routerIndex].rests[restIndex].handlers.addHandlers(phase, handlers...)
 }

@@ -4,13 +4,13 @@ server: {
 		name: http 
 	}
 	location: {
-		method: {
-			methods: GET
-			url: `/demo`
-		}
-		method: {
-			methods: POST
-			url: `/demo/:ac`
-		}
+		methods: GET
+		url: `/demo`
+		huxing: dynamic
+	}
+	location: {
+		methods: GET
+		url: `/demo/:ac`
+		huxing: dynamic
 	}
 }
