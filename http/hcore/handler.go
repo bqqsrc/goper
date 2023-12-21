@@ -17,12 +17,14 @@ type phaseHandlers struct {
 	handlers HandlersChain
 }
 
-type httpPhaseHandlers map[http.HttpPhase]phaseHandlers
+type httpPhaseHandlers struct {
+	handlers map[http.HttpPhase]phaseHandlers
+}
 
-func (h httpPhaseHandlers) Handler(context *http.Context) http.HttpPhase {
-	if h == nil || len(h) == 0 {
-		log.Errorln("httpPhaseHandlers is empty")
-		return http.HttpError
+func (h *httpPhaseHandlers) Handler(context *http.Context) http.HttpPhase {
+	if h.handlers == nil || len(h.handlers) == 0 {
+		log.Warnln("httpPhaseHandlers is empty")
+		return http.HttpFinish // http.HttpError
 	}
 	var errGroup errors.ErrorGroup
 	index := 0
@@ -30,7 +32,7 @@ walk:
 	for index < len(phaseOrder) {
 		phase := phaseOrder[index]
 	next:
-		if phaseHandlers, ok := h[phase]; ok {
+		if phaseHandlers, ok := h.handlers[phase]; ok {
 			handlers := phaseHandlers.handlers
 			if handlers != nil && len(handlers) > 0 {
 				hIndex := 0
@@ -51,7 +53,7 @@ walk:
 								}
 							}
 							phase = nextPhase
-							if _, ok = h[phase]; !ok {
+							if _, ok = h.handlers[phase]; !ok {
 								errGroup = errGroup.AddErrorf("not found handlers of HttpPhase")
 							}
 							goto next
@@ -69,19 +71,19 @@ walk:
 	return http.HttpFinish
 }
 
-func (h httpPhaseHandlers) addHandlers(phase http.HttpPhase, handlers ...http.HttpHandler) httpPhaseHandlers {
+func (h *httpPhaseHandlers) addHandlers(phase http.HttpPhase, handlers ...http.HttpHandler) { // httpPhaseHandlers {
 	if handlers == nil || len(handlers) == 0 {
-		return h
+		return //h
 	}
-	if h == nil {
-		h = make(httpPhaseHandlers, http.HttpPhaseCount)
-		h[phase] = phaseHandlers{phase, handlers}
+	if h.handlers == nil {
+		h.handlers = make(map[http.HttpPhase]phaseHandlers, http.HttpPhaseCount)
+		h.handlers[phase] = phaseHandlers{phase, handlers}
 	} else {
-		if h[phase].handlers == nil {
-			h[phase] = phaseHandlers{phase, handlers}
+		if h.handlers[phase].handlers == nil {
+			h.handlers[phase] = phaseHandlers{phase, handlers}
 		} else {
-			h[phase] = phaseHandlers{phase, append(h[phase].handlers, handlers...)}
+			h.handlers[phase] = phaseHandlers{phase, append(h.handlers[phase].handlers, handlers...)}
 		}
 	}
-	return h
+	// return h
 }
