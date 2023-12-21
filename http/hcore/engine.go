@@ -87,6 +87,7 @@ func (e *engine) handleHTTPRequest(c *http.Context) {
 			}
 			c.FormData = c.Request.PostForm
 			c.Body, _ = ioutil.ReadAll(c.Request.Body)
+			c.Response = http.ResponseData()
 
 			phase := handler.Handler(c)
 			if c.NotResponse {
