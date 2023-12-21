@@ -37,12 +37,27 @@ func (ps Params) ByKey(key string) (va string) {
 }
 
 type Context struct {
-	Request    *httpp.Request
-	Writer     httpp.ResponseWriter
-	ParamsData Params
-	QueryData  url.Values
-	FormData   url.Values
-	Keys       map[string]any
-	Response   Response
-	Errors     errors.ErrorGroup
+	Request     *httpp.Request
+	Writer      httpp.ResponseWriter
+	ParamsData  Params
+	QueryData   url.Values
+	FormData    url.Values
+	Keys        map[string]any
+	Response    Response
+	Errors      errors.ErrorGroup
+	Body        []byte
+	NotResponse bool
+}
+
+func (c *Context) Reset() {
+	c.Request = nil
+	c.Writer = nil
+	c.ParamsData = nil
+	c.QueryData = nil
+	c.FormData = nil
+	c.Keys = nil
+	c.Response = nil
+	c.Errors = nil
+	c.Body = nil
+	c.NotResponse = false
 }
