@@ -82,7 +82,7 @@ go run example.go
 
 作者的联系方式：
 
-   - 微信：_xbqq_
+   - 微信：\_xbqq\_
 
    - QQ：1662488230
 
