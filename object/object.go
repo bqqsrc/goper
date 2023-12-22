@@ -18,7 +18,7 @@ type ConfigPair struct {
 	Value ConfigValue // 参数值，这个值传入时只能是指针，可以为空，如果为nil表示关注这个key，但是不是解析为一个值，而是进行配置块解析
 }
 
-// 组件的参数配置项定义
+// 组件的配置指令定义
 type Command struct {
 	Config              ConfigPair
 	KeyWord             bool                           // 是否注册为关键字

@@ -110,10 +110,10 @@ type '${Name}' struct {
 }
 
 func (t *'${Name}') CreateConfig(key string) []object.Command {
-	//TODO 返回要从配置文件中解析的参数配置项和关注的配置
+	//TODO 返回要从配置文件中解析的配置指令和关注的配置
 	// key为当前从配置文件获取读取到的键，有可能为空字符串，该字段一般在配置块时有用
 	// 返回值：
-	//     []object.Command，需要解析的参数配置项
+	//     []object.Command，需要解析的配置指令
 	//     []string，关注的配置名称
 	//     Componenter，关注这个配置键的组件，如果传nil则表示本组件关注，解析完会回调Componenter的Init
 	// []object.Command记录了组件关注的键和解析的目标值的对应关系，配置文件读取到对应的键后会将其解析为所传的目标值
