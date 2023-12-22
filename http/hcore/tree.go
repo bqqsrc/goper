@@ -578,17 +578,19 @@ walk:
 			// If the current path does not equal '/' and the node does not have a registered handle and the most recently matched node has a child node
 			// the current node needs to roll back to last valid skippedNode
 			if n.handler == nil && path != "/" {
-				for length := len(*skippedNodes); length > 0; length-- {
-					skippedNode := (*skippedNodes)[length-1]
-					*skippedNodes = (*skippedNodes)[:length-1]
-					if strings.HasSuffix(skippedNode.path, path) {
-						path = skippedNode.path
-						n = skippedNode.node
-						if value.params != nil {
-							*value.params = (*value.params)[:skippedNode.paramsCount]
+				if skippedNodes != nil {
+					for length := len(*skippedNodes); length > 0; length-- {
+						skippedNode := (*skippedNodes)[length-1]
+						*skippedNodes = (*skippedNodes)[:length-1]
+						if strings.HasSuffix(skippedNode.path, path) {
+							path = skippedNode.path
+							n = skippedNode.node
+							if value.params != nil {
+								*value.params = (*value.params)[:skippedNode.paramsCount]
+							}
+							globalParamsCount = skippedNode.paramsCount
+							continue walk
 						}
-						globalParamsCount = skippedNode.paramsCount
-						continue walk
 					}
 				}
 				//	n = latestNode.children[len(latestNode.children)-1]
@@ -640,17 +642,19 @@ walk:
 
 		// roll back to last valid skippedNode
 		if !value.tsr && path != "/" {
-			for length := len(*skippedNodes); length > 0; length-- {
-				skippedNode := (*skippedNodes)[length-1]
-				*skippedNodes = (*skippedNodes)[:length-1]
-				if strings.HasSuffix(skippedNode.path, path) {
-					path = skippedNode.path
-					n = skippedNode.node
-					if value.params != nil {
-						*value.params = (*value.params)[:skippedNode.paramsCount]
+			if skippedNodes != nil {
+				for length := len(*skippedNodes); length > 0; length-- {
+					skippedNode := (*skippedNodes)[length-1]
+					*skippedNodes = (*skippedNodes)[:length-1]
+					if strings.HasSuffix(skippedNode.path, path) {
+						path = skippedNode.path
+						n = skippedNode.node
+						if value.params != nil {
+							*value.params = (*value.params)[:skippedNode.paramsCount]
+						}
+						globalParamsCount = skippedNode.paramsCount
+						continue walk
 					}
-					globalParamsCount = skippedNode.paramsCount
-					continue walk
 				}
 			}
 		}
