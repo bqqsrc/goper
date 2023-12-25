@@ -4,7 +4,6 @@ package http
 
 const (
 	HttpLogic HttpPhase = iota
-	HttpMethodNotSupport
 	HttpNotFound
 	HttpError
 	HttpFinish
